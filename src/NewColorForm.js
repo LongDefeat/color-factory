@@ -3,24 +3,24 @@ import {useNavigate} from "react-router-dom";
 import "./NewColorForm.css"
 
 function NewColorForm({addColor}) {
-    const [form, updateForm] = useState({name: "", hex: "#ffffff"});
-    const history = useNavigate();
+    const [colorName, setColorName] = useState("");
+    const [colorHex, setColorHex] = useState("")
+    const navigate = useNavigate();
 
-    function handleChange(e){
-        e.persist();
-        updateForm(f => ({
-            ...f,
-            [e.target.value]: e.target.value
-        }))
+    function handleColorChange(e){
+        setColorName(e.target.value);
+    };
+
+    function handleColorHexChange(e){
+        setColorHex(e.target.value);
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        addColor({ [form.name]: form.hex });
-        history.push("/colors")
+        addColor({ [colorName]: colorHex });
+        navigate("/colors");
     }
 
-    const {hex, name} = form;
 
     return(
         <div className="NewColor">
@@ -32,9 +32,9 @@ function NewColorForm({addColor}) {
                     type="text"
                     id="name"
                     placeholder="Enter color name"
-                    value={name}
-                    onChange={handleChange}
-                                        />
+                    onChange={handleColorChange}
+                    value={colorName}
+                    />
                 </div>
                 <div>
                     <label htmlFor="hex">Color Value: </label>
@@ -42,11 +42,11 @@ function NewColorForm({addColor}) {
                     type="color"
                     name="hex"
                     id="hex"
-                    value={hex}
-                    onChange={handleChange}
-                                        />
+                    onChange={handleColorHexChange}
+                    value={colorHex}
+                    />
                 </div>
-                <input type="Submit" value="Add this color"/>
+                <input type="Submit" value="Add this color" readOnly/>
             </form>
         </div>
     )
